@@ -465,17 +465,17 @@ def init_buttom_template(userTemplate):
                     "buttons":[
                         {
                         'type': 'postback',
-                        'title': 'Symptom checker',
+                        'title': 'Purchase Bus Tickets',
                         'payload': 'SymptomChecker:In order to properly help you, I will need to ask you a few questions. What symptoms do you have?'
                         },
                         {
                         'type': 'postback',
-                        'title': 'Health alerts',
+                        'title': 'Purchase Movie Tickets',
                         'payload': 'HealthAlerts:Which diseases and/or symptoms would you like to check in your local area?'
                         },
                         {
                         'type': 'postback',
-                        'title': 'Tonic Discounts',
+                        'title': 'Activate/Deactivate Services',
                         'payload': 'TonicDiscountsMain:Please send me your location so I can find hospitals near you..'
                         }
 #                               {
