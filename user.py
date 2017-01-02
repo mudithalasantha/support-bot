@@ -13,14 +13,13 @@ class MyUser:
     def __init__(self):
 #        self.data = []
         self.id = None
-        self.symptom = 'empty'
         self.gender = 'empty'
         self.age = None
-        self.diagnosis = 'empty'
         self.first_name = 'empty'
         self.last_name = 'empty'
-        self.profile_pic = 'empty'
-        self.question_count = 0
+        self.nic = 'empty'
+        self.stage = 'empty'
+        self.last_edit = 'empty'
 
 
 def CheckUser(userID):
@@ -51,22 +50,13 @@ def CreateUser(userID):
         newUser.gender = str(r.json()["gender"])
     except:
         newUser.gender = "empty"
-    try:
-        newUser.profile_pic = str(r.json()["profile_pic"])
-    except:
-        newUser.profile_pic = "empty"
 
-    newUser.symptom = "empty"
-    newUser.diagnosis = "empty"
+    newUser.nic = "empty"
+    newUser.stage = "Initial"
     newUser.age = 40  #Need to be impliment
-    newUser.question_count = 0;
     
     psql.insert_user(newUser)
     
     return psql.get_user(newUser.id)
 
-
-def RemoveUser(user, usersList):
-    usersList.remove(user)
-    user = None
 

@@ -120,10 +120,6 @@ def webhook():
                                     log("Dev Test User Found profile_pic : " + str(devTestUser.profile_pic))
                                 else:
                                     log("Dev Test User Not Found id : " + str(messaging_event["sender"]["id"]))
-                            elif message.upper() == "DEV CREATE TABLE MLK":
-                                psql.create_tables()
-                            elif message.upper() == "DEV DROP TABLE MLK":
-                                psql.drop_tables()
                             elif message.upper() == "DEV TEST SQLCONNECT MLK":
                                 psql.connect()
                             
@@ -475,7 +471,7 @@ def init_buttom_template(userTemplate):
                         },
                         {
                         'type': 'postback',
-                        'title': 'Activate/Deactivate Services',
+                        'title': 'Act/Deact Services',
                         'payload': 'TonicDiscountsMain:Please send me your location so I can find hospitals near you..'
                         }
 #                               {
