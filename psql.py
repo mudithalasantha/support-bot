@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
 def insert_user(user):
     """ insert a new user into the vendors table """
-    sql = "insert into users (id,gender,age,first_name,last_name,nic,stage) VALUES("+str(user.id)+",'"+str(user.gender)+"',"+str(user.age)+",'"+str(user.first_name).replace("'", "")+"','"+str(user.last_name).replace("'", "")+"','"+str(user.nic)+"','"+str(user.stage)+"')"
+    sql = "insert into users (id,gender,mobile,age,first_name,last_name,nic,stage) VALUES("+str(user.id)+",'"+str(user.gender)+"','"+str(user.mobile)+"',"+str(user.age)+",'"+str(user.first_name).replace("'", "")+"','"+str(user.last_name).replace("'", "")+"','"+str(user.nic)+"','"+str(user.stage)+"')"
     conn = None
     try:
         # read database configuration
@@ -75,18 +75,19 @@ def get_user(id):
         params = config()
         conn = psycopg2.connect(**params)
         cur = conn.cursor()
-        cur.execute("select id,gender,age,first_name,last_name,nic,stage,last_edit FROM users where id = "+str(id))
+        cur.execute("select id,gender,mobile,age,first_name,last_name,nic,stage,last_edit FROM users where id = "+str(id))
         print("The number of users: ", cur.rowcount)
         row = cur.fetchone()
         print(row)
         Muser.id = row[0]
         Muser.gender = row[1]
-        Muser.age = row[2]
-        Muser.first_name = row[3]
-        Muser.last_name = row[4]
-        Muser.nic = row[5]
-        Muser.stage = row[6]
-        Muser.last_edit = row[7]
+        Muser.mobile = row[2]
+        Muser.age = row[3]
+        Muser.first_name = row[4]
+        Muser.last_name = row[5]
+        Muser.nic = row[6]
+        Muser.stage = row[7]
+        Muser.last_edit = row[8]
         
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
@@ -131,7 +132,7 @@ def update_user(id, user):
         # create a new cursor
         cur = conn.cursor()
         # execute the UPDATE  statement
-        cur.execute("update users set gender = '"+str(user.gender)+"',age = "+str(user.age)+" ,first_name = '"+str(user.first_name).replace("'", "")+"',last_name = '"+str(user.last_name).replace("'", "")+"',nic = '"+str(user.nic).replace("'", "")+"',stage = '"+str(user.stage).replace("'", "")+"',last_edit = now()  where id = "+str(id))
+        cur.execute("update users set gender = '"+str(user.gender)+"',mobile = '"+str(user.mobile)+"',age = "+str(user.age)+" ,first_name = '"+str(user.first_name).replace("'", "")+"',last_name = '"+str(user.last_name).replace("'", "")+"',nic = '"+str(user.nic).replace("'", "")+"',stage = '"+str(user.stage).replace("'", "")+"',last_edit = now()  where id = "+str(id))
         # get the number of updated rows
         updated_rows = cur.rowcount
         # Commit the changes to the database

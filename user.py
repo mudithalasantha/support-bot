@@ -14,6 +14,7 @@ class MyUser:
 #        self.data = []
         self.id = None
         self.gender = 'empty'
+        self.mobile = 'empty'
         self.age = None
         self.first_name = 'empty'
         self.last_name = 'empty'
@@ -51,6 +52,7 @@ def CreateUser(userID):
     except:
         newUser.gender = "empty"
 
+    newUser.mobile = "empty"
     newUser.nic = "empty"
     newUser.stage = "Initial"
     newUser.age = 40  #Need to be impliment
