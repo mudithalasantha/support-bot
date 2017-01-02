@@ -131,7 +131,7 @@ def update_user(id, user):
         # create a new cursor
         cur = conn.cursor()
         # execute the UPDATE  statement
-        cur.execute("update users set gender = '"+str(user.gender)+"',age = "+str(user.age)+" ,first_name = '"+str(user.first_name).replace("'", "")+"',last_name = '"+str(user.last_name).replace("'", "")+"',nic = '"+str(user.nic).replace("'", "")+"',stage = '"+str(user.stage).replace("'", "")+"',last_edit = now()  where id = "+str(id)
+        cur.execute("update users set gender = '"+str(user.gender)+"',age = "+str(user.age)+" ,first_name = '"+str(user.first_name).replace("'", "")+"',last_name = '"+str(user.last_name).replace("'", "")+"',nic = '"+str(user.nic).replace("'", "")+"',stage = '"+str(user.stage).replace("'", "")+"',last_edit = now()  where id = "+str(id))
         # get the number of updated rows
         updated_rows = cur.rowcount
         # Commit the changes to the database
