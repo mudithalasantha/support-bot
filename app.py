@@ -113,7 +113,7 @@ def webhook():
                                 apiaiRequest.lang = 'en'  # optional, default value equal 'en'
                                 apiaiRequest.query = message
                                 apiaiResponse = apiaiRequest.getresponse()
-                                data = json.loads(response.read())
+                                data = json.loads(apiaiResponse.read())
                                 log("api ai return data : " + str(data))
 
 
