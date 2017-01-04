@@ -16,17 +16,12 @@ from flask import Flask, request
 
 import infermedica_api
 
+ClientAccessToken = '58ff267796024863a39bcc78efe8e0ed'
 googleApiKey = 'AIzaSyDajx797IQYukLSGkT3VwP02Qa2pyWQlEw'
 api = infermedica_api.API(app_id='21794b8d', app_key='81f5f69f0cc9d2defaa3c722c0e905bf')
 #print(api.info())
 
 app = Flask(__name__)
-
-symptom_mode = False
-#symptom = None
-#gender = None
-#age = None
-#diagnosis = None
 myUser = user.MyUser()
 
 @app.route('/', methods=['GET'])
@@ -90,13 +85,9 @@ def webhook():
                         # sort different types of messages
                         message = messaging_event["message"]
 
-                        sid = None
                         if message.get("text"): # get message
                             message = message["text"]
-                            if message.upper() == "DOCTORBOT" or message.upper() == "HI" or message.upper() == "HELLO":
-                                myUser.symptom = 'empty'
-                                myUser.diagnosis = 'empty'
-                                myUser.question_count = 0
+                            if message.upper() == "SUPPORTBOT" or message.upper() == "HI" or message.upper() == "HELLO":
                                 if psql.update_user(messaging_event["sender"]["id"],myUser) == 0:
                                     log("Error : User not found for update id. : " + str(messaging_event["sender"]["id"]))
                                 else:
@@ -116,102 +107,15 @@ def webhook():
                                     log("Dev Test User Not Found id : " + str(messaging_event["sender"]["id"]))
                             elif message.upper() == "DEV TEST SQLCONNECT MLK":
                                 psql.connect()
-                            
-
-                            elif myUser.symptom != 'empty' and myUser.diagnosis != 'empty':
-                                try:
-                                    if string.find(message.upper(),str(myUser.diagnosis.question.items[0]["choices"][0]["label"]).upper()) is not -1:
-                                        myUser.diagnosis = diagnose.improve_diagnosis(myUser.diagnosis,myUser.id,myUser.symptom,str(myUser.diagnosis.question.items[0]["choices"][0]["id"]))
-                                    elif string.find(message.upper(),str(myUser.diagnosis.question.items[0]["choices"][1]["label"]).upper()) is not -1:
-                                        myUser.diagnosis = diagnose.improve_diagnosis(myUser.diagnosis,myUser.id,myUser.symptom,str(myUser.diagnosis.question.items[0]["choices"][1]["id"]))
-                                    elif string.find(message.upper(),str(myUser.diagnosis.question.items[0]["choices"][2]["label"]).upper()) is not -1:
-                                        myUser.diagnosis = diagnose.improve_diagnosis(myUser.diagnosis,myUser.id,myUser.symptom,str(myUser.diagnosis.question.items[0]["choices"][2]["id"]))
-                                    else:
-                                        send_message(myUser.id, "Sorry, I didn't get that. Please enter your answer again.")
-                                    
-                                    if psql.update_user(messaging_event["sender"]["id"],myUser) == 0:
-                                        log("Error : User not found for update. id : " + str(messaging_event["sender"]["id"]))
-                                    else:
-                                        log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
-                                    
-                                    if myUser.diagnosis.conditions[0]["probability"] > 0.25 and myUser.question_count > 3:
-                                        send_message(myUser.id, "I suspect "+str(myUser.diagnosis.conditions[0]["name"])+" with a probability of "+str(myUser.diagnosis.conditions[0]["probability"]))
-                                        send_message(myUser.id, "Please send me your location so I can find a doctor near you")
-                                        send_message_quick_location(myUser.id)
-                                        
-                                        myUser.symptom = 'empty'
-                                        myUser.diagnosis = 'empty'
-                                        myUser.question_count = 0
-                                        if psql.update_user(messaging_event["sender"]["id"],myUser) == 0:
-                                            log("Error : User not found for update. id : " + str(messaging_event["sender"]["id"]))
-                                        else:
-                                            log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
-                                        myUser = user.MyUser()
-
-                                    else:
-                                        myUser.symptom = str(myUser.diagnosis.question.items[0]["id"])
-                                        response = str(myUser.diagnosis.question.text.encode('utf8'))
-                                        if "image_url" in myUser.diagnosis.question.extras:
-                                            send_message_image(myUser.id, myUser.diagnosis.question.extras["image_url"])
-                                        if str(myUser.diagnosis.question.type) == "group_single" or str(myUser.diagnosis.question.type) == "group_multiple":
-                                            response = response + "\n " + str(myUser.diagnosis.question.items[0]["name"].encode('utf8')) + "? "
-                                        for x in myUser.diagnosis.question.items[0]["choices"]:
-                                            response = response + "\n - " + str(x["label"])
-                                        myUser.question_count = myUser.question_count + 1
-                                        send_message(myUser.id, response)
-                                        if psql.update_user(messaging_event["sender"]["id"],myUser) == 0:
-                                            log("Error : User not found for update. id : " + str(messaging_event["sender"]["id"]))
-                                        else:
-                                            log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
-                                except (RuntimeError, TypeError, NameError, IndexError):
-                                    print "Unexpected error:", sys.exc_info()[0]
-#                                log("-----myUser.diagnosis------ " + str(myUser.diagnosis))
-
-                            elif myUser.diagnosis == 'empty':
-                                search_result = search.search_symtom_limit(message, 5)
-                                log("----------- " + str(search_result))
-                                if len(search_result) > 0:
-                                    send_message(myUser.id, "Give me a sec!")
-                                    sid = str(search_result[0]["id"])
-                                    log("************ " + sid)
-                                
-                                    myUser.diagnosis = diagnose.init_diagnose(sid,myUser.age,myUser.gender,myUser.id)
-                                    log("-----myUser.diagnosis First Time------ " + str(myUser.diagnosis))
-                                    myUser.symptom = str(myUser.diagnosis.question.items[0]["id"])
-                                    response = str(myUser.diagnosis.question.text.encode('utf8'))
-                                    if "image_url" in myUser.diagnosis.question.extras:
-                                        send_message_image(myUser.id, myUser.diagnosis.question.extras["image_url"])
-                                    if str(myUser.diagnosis.question.type) == "group_single" or str(myUser.diagnosis.question.type) == "group_multiple":
-                                        response = response + "\n " + str(myUser.diagnosis.question.items[0]["name"].encode('utf8')) + "? "
-                                    for x in myUser.diagnosis.question.items[0]["choices"]:
-                                        response = response + "\n - " + str(x["label"])
-                                    myUser.question_count = myUser.question_count + 1
-                                    send_message(myUser.id, response)
-                                    if psql.update_user(messaging_event["sender"]["id"],myUser) == 0:
-                                        log("Error : User not found for update. id : " + str(messaging_event["sender"]["id"]))
-                                    else:
-                                        log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
-                                else:
-                                    send_message(myUser.id, "Sorry, Server appears to be busy at the moment. Please try again later.")
-
-
-                        # if message.get("text"): # get message
-                        #     message = message["text"]
-                        #     if symptom_mode:
-                        #         symptoms = 3
-                        #         print symptoms
-                        #         # if myUser.symptom == None
-                        #         #     myUser.symptom = apiai_symptom(message) # assuming user put symptom
-                        #         # elif 
-
-
-                        #     elif alert_mode:
-                        #         pass
-                        #     else:
-                        #         if message == "Hi":
-                        #             init_buttom_template(myUser.id)
-                        #         else:
-                        #             send_message(myUser.id, "Say 'Hi' to the DoctorBot to get started!")
+                            else
+                                ai = apiai.ApiAI(ClientAccessToken)
+                                request = ai.text_request()
+                                request.lang = 'en'  # optional, default value equal 'en'
+                                request.query = message
+                                response = request.getresponse()
+                                data = json.loads(response.read())
+                                log("api ai return data : " + str(data))
+            
 
                         elif message.get("attachments"):    # get attachment
                             attach = message["attachments"][0]  # loop over attachments?
