@@ -27,7 +27,6 @@ symptom_mode = False
 #gender = None
 #age = None
 #diagnosis = None
-myUsers = []
 myUser = user.MyUser()
 
 @app.route('/', methods=['GET'])
@@ -48,20 +47,18 @@ def webhook():
     data = request.get_json()
     log("%%%% New Message %%%% " + str(data))  # you may not want to log every incoming message in production, but it's good for testing
     
-    global myUsers, myUser
+    global myUser
     
     if "object" in data:
         if data["object"] == "page":
             for entry in data["entry"]:
                 for messaging_event in entry["messaging"]:
-                    log("myUsers Lenght : " + str(len(myUsers)))
                     if messaging_event.get("postback") or messaging_event.get("message"):
                         if user.CheckUser(messaging_event["sender"]["id"]):
                             myUser = user.GetUser(messaging_event["sender"]["id"])
                             log("User Found : " + str(myUser.id))
                         else:
                             myUser = user.CreateUser(messaging_event["sender"]["id"])
-                            myUsers.append(myUser)
                             log("User Created : " + str(myUser.id))
 
                     if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
@@ -106,9 +103,6 @@ def webhook():
                                     log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
                                 init_buttom_template(myUser)
                             elif message.upper() == "DEV MYUSER":
-                                log("Dev Test myUsers Lenght : " + str(len(myUsers)))
-                                for i in range(len(myUsers)):
-                                    log(str(i) + " - " + str(myUsers[i].first_name))
                                 if user.CheckUser(messaging_event["sender"]["id"]):
                                     devTestUser = user.GetUser(messaging_event["sender"]["id"])
                                     log("Dev Test User Found id : " + str(devTestUser.id))
@@ -152,10 +146,6 @@ def webhook():
                                             log("Error : User not found for update. id : " + str(messaging_event["sender"]["id"]))
                                         else:
                                             log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
-    #                                    log("myUsers Lenght : " + str(len(myUsers)))
-    #                                    log("Removing user : " + str(myUser.id))
-    #                                    user.RemoveUser(myUser,myUsers)
-    #                                    log("myUsers Lenght : " + str(len(myUsers)))
                                         myUser = user.MyUser()
 
                                     else:
