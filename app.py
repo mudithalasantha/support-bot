@@ -107,7 +107,7 @@ def webhook():
                                     log("Dev Test User Not Found id : " + str(messaging_event["sender"]["id"]))
                             elif message.upper() == "DEV TEST SQLCONNECT MLK":
                                 psql.connect()
-                            else
+                            else:
                                 ai = apiai.ApiAI(ClientAccessToken)
                                 request = ai.text_request()
                                 request.lang = 'en'  # optional, default value equal 'en'
