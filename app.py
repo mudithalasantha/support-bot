@@ -202,8 +202,8 @@ def webhook():
 
                     # if messaging_event.get("optin"):  # optin confirmation
                     #     pass
-                    log("********Symtom End******** " + str(myUser.symptom))
-                    log("-----myUser.diagnosis End------ " + str(myUser.diagnosis))
+#                    log("********Symtom End******** " + str(myUser.symptom))
+#                    log("-----myUser.diagnosis End------ " + str(myUser.diagnosis))
     log("******** return 'OK', 200 ******** ")
     return "OK", 200
 
