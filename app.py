@@ -113,8 +113,12 @@ def webhook():
                                 apiaiRequest.lang = 'en'  # optional, default value equal 'en'
                                 apiaiRequest.query = message
                                 apiaiResponse = apiaiRequest.getresponse()
-                                data = json.loads(apiaiResponse.read())
-                                log("api ai return data : " + str(data))
+                                apiaiData = json.loads(apiaiResponse.read())
+                                log("api ai return data : " + str(apiaiData))
+                                if "result" in apiaiData:
+                                    if "fulfillment" in apiaiData["result"]:
+                                        if "speech" in apiaiData["result"]["fulfillment"]:
+                                            send_message(myUser.id, str(apiaiData["result"]["fulfillment"]["speech"]))
 
 
                         elif message.get("attachments"):    # get attachment
