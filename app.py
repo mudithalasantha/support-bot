@@ -109,13 +109,13 @@ def webhook():
                                 psql.connect()
                             else:
                                 ai = apiai.ApiAI(ClientAccessToken)
-                                request = ai.text_request()
-                                request.lang = 'en'  # optional, default value equal 'en'
-                                request.query = message
-                                response = request.getresponse()
+                                apiaiRequest = ai.text_request()
+                                apiaiRequest.lang = 'en'  # optional, default value equal 'en'
+                                apiaiRequest.query = message
+                                apiaiResponse = apiaiRequest.getresponse()
                                 data = json.loads(response.read())
                                 log("api ai return data : " + str(data))
-            
+
 
                         elif message.get("attachments"):    # get attachment
                             attach = message["attachments"][0]  # loop over attachments?
