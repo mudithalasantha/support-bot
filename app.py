@@ -347,7 +347,7 @@ def CustomPayload_template(userTemplate, payloadData):
         "Content-Type": "application/json"
     }
     if "recipient" in payloadData and "id" in payloadData["recipient"]:
-        payloadData["recipient"]["id"] = str(userTemplate.id)
+        payloadData["recipient"]["id"] = userTemplate.id
         log("recipient id modified to {recipient}.".format(recipient=payloadData["recipient"]))
     data = payloadData
 #    data = json.dumps({
