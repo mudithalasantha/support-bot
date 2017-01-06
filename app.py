@@ -87,11 +87,11 @@ def webhook():
 
                         if message.get("text"): # get message
                             message = message["text"]
+                            if psql.update_user(messaging_event["sender"]["id"],myUser) == 0:
+                                log("Error : User not found for update id. : " + str(messaging_event["sender"]["id"]))
+                            else:
+                                log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
                             if message.upper() == "SUPPORTBOT" or message.upper() == "HI" or message.upper() == "HELLO":
-                                if psql.update_user(messaging_event["sender"]["id"],myUser) == 0:
-                                    log("Error : User not found for update id. : " + str(messaging_event["sender"]["id"]))
-                                else:
-                                    log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
                                 init_buttom_template(myUser)
                             elif message.upper() == "DEV MYUSER":
                                 if user.CheckUser(messaging_event["sender"]["id"]):
@@ -118,7 +118,7 @@ def webhook():
                                 if "result" in apiaiData:
                                     if "fulfillment" in apiaiData["result"]:
                                         if "speech" in apiaiData["result"]["fulfillment"]:
-                                            send_message(myUser.id, str(apiaiData["result"]["fulfillment"]["speech"]))
+                                            send_message(myUser.id, str(apiaiData["result"]["fulfillment"]["speech"]).replace("%Name%.", myUser.first_name))
 
 
                         elif message.get("attachments"):    # get attachment
@@ -365,7 +365,7 @@ def init_buttom_template(userTemplate):
                         {
                         'type': 'postback',
                         'title': 'Purchase Movie Tickets',
-                        'payload': 'MovieTickets:Please select movie from below List.'
+                        'payload': 'MovieTickets:Please select movie from below list.'
                         },
                         {
                         'type': 'postback',
