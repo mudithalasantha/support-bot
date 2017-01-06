@@ -93,7 +93,7 @@ def webhook():
                                 log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
 #                            if message.upper() == "SUPPORTBOT" or message.upper() == "HI" or message.upper() == "HELLO":
 #                                init_buttom_template(myUser)
-                            elif message.upper() == "DEV MYUSER":
+                            if message.upper() == "DEV MYUSER":
                                 if user.CheckUser(messaging_event["sender"]["id"]):
                                     devTestUser = user.GetUser(messaging_event["sender"]["id"])
                                     log("Dev Test User Found id : " + str(devTestUser.id))
