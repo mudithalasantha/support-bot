@@ -348,7 +348,7 @@ def CustomPayload_template(userTemplate, payloadData):
     }
     if "recipient" in payloadData:
         payloadData["recipient"] = str(userTemplate.id)
-        log("recipient modified to {recipient}.".format(recipient=userTemplate.id))
+        log("recipient modified to {recipient}.".format(recipient=payloadData["recipient"]))
     data = payloadData
 #    data = json.dumps({
 #        "recipient": {
