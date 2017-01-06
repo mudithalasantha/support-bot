@@ -72,7 +72,7 @@ def webhook():
                             message = payload
                             log("message : " + message)
                             send_message(myUser.id, message)
-                            send_message_quick_location(myUser.id)
+#                            send_message_quick_location(myUser.id)
                         elif title == 'TonicDiscounts':
                             message = payload
                             log("message : " + message)
@@ -125,7 +125,10 @@ def webhook():
                                                 init_buttom_template(myUser)
                                             else:
                                                 send_message(myUser.id, strData)
-
+                                        if "messages" in apiaiData["result"]["fulfillment"]:
+                                            for messagesEntry in apiaiData["result"]["fulfillment"]["messages"]:
+                                                if "payload" in messagesEntry and "type" in messagesEntry and messagesEntry["type"] == 4:
+                                                    CustomPayload_template(myUser,messagesEntry["payload"])
 
                         elif message.get("attachments"):    # get attachment
                             attach = message["attachments"][0]  # loop over attachments?
@@ -331,6 +334,61 @@ def send_message_quick_location(sender_id):
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
+
+def CustomPayload_template(userTemplate, payloadData):
+
+
+    log("Sending ResponseCard_template to {recipient}.".format(recipient=userTemplate.id))
+    
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    if "recipient" in payloadData:
+        payloadData["recipient"] = userTemplate.id
+    data = payloadData
+#    data = json.dumps({
+#        "recipient": {
+#            "id": userTemplate.id
+#                      },
+#                      
+#        "message": {
+#            "attachment": {
+#                "type": "template",
+#                "payload": {
+#                      "template_type": "generic",
+#                      "elements": [
+#                                   {
+#                                   "title": str(title),
+#                                   "item_url": str(item_url),
+#                                   "image_url": str(image_url),
+#                                   "subtitle": str(subtitle)#,
+#                                   "buttons": [
+#                                               {
+#                                               "type": "web_url",
+#                                               "url": "https://petersfancybrownhats.com",
+#                                               "title": "View Website"
+#                                               },
+#                                               {
+#                                               "type": "postback",
+#                                               "title": "Start Chatting",
+#                                               "payload": "DEVELOPER_DEFINED_PAYLOAD"
+#                                               }
+#                                               ]
+#                                   }
+#                                   ]
+#                }
+#            }
+#        }
+#    })
+    r = requests.post("https://graph.facebook.com/v2.8/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
+                          
+    log(r.text)
 
 
 def init_buttom_template(userTemplate):
