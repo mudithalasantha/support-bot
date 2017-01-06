@@ -64,11 +64,11 @@ def webhook():
                         title = messaging_event["postback"]["payload"].split(":")[0]
                         payload = messaging_event["postback"]["payload"].split(":")[1]
                         
-                        if title == 'SymptomChecker' or title == 'HealthAlerts':
+                        if title == 'BusTickets' or title == 'MovieTickets':
                             message = payload
                             log("message : " + message)
                             send_message(myUser.id, message)
-                        elif title == 'TonicDiscountsMain':
+                        elif title == 'ActDeactServices':
                             message = payload
                             log("message : " + message)
                             send_message(myUser.id, message)
@@ -360,17 +360,17 @@ def init_buttom_template(userTemplate):
                         {
                         'type': 'postback',
                         'title': 'Purchase Bus Tickets',
-                        'payload': 'SymptomChecker:In order to properly help you, I will need to ask you a few questions. What symptoms do you have?'
+                        'payload': 'BusTickets:In order to properly help you, I will need to ask you a few questions. What is your starting location ?'
                         },
                         {
                         'type': 'postback',
                         'title': 'Purchase Movie Tickets',
-                        'payload': 'HealthAlerts:Which diseases and/or symptoms would you like to check in your local area?'
+                        'payload': 'MovieTickets:Please select movie from below List.'
                         },
                         {
                         'type': 'postback',
                         'title': 'Act/Deact Services',
-                        'payload': 'TonicDiscountsMain:Please send me your location so I can find hospitals near you..'
+                        'payload': 'ActDeactServices:Please select service from below list to act/deact it.'
                         }
 #                               {
 #                               "type":"web_url",
