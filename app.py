@@ -91,8 +91,8 @@ def webhook():
                                 log("Error : User not found for update id. : " + str(messaging_event["sender"]["id"]))
                             else:
                                 log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
-                            if message.upper() == "SUPPORTBOT" or message.upper() == "HI" or message.upper() == "HELLO":
-                                init_buttom_template(myUser)
+#                            if message.upper() == "SUPPORTBOT" or message.upper() == "HI" or message.upper() == "HELLO":
+#                                init_buttom_template(myUser)
                             elif message.upper() == "DEV MYUSER":
                                 if user.CheckUser(messaging_event["sender"]["id"]):
                                     devTestUser = user.GetUser(messaging_event["sender"]["id"])
@@ -118,7 +118,13 @@ def webhook():
                                 if "result" in apiaiData:
                                     if "fulfillment" in apiaiData["result"]:
                                         if "speech" in apiaiData["result"]["fulfillment"]:
-                                            send_message(myUser.id, str(apiaiData["result"]["fulfillment"]["speech"]).replace("%Name%", myUser.first_name))
+                                            strData = str(apiaiData["result"]["fulfillment"]["speech"]).replace("%Name%", myUser.first_name)
+                                            if "%init_buttom_template%" in strData:
+                                                strData = strData.replace("%init_buttom_template%", "")
+                                                send_message(myUser.id, strData)
+                                                init_buttom_template(myUser)
+                                            else:
+                                                send_message(myUser.id, strData)
 
 
                         elif message.get("attachments"):    # get attachment
@@ -329,14 +335,14 @@ def send_message_quick_location(sender_id):
 
 def init_buttom_template(userTemplate):
 
-    welcome_message = "Hello! How may I help you?"
+    welcome_message = "How may I help you?"
     if userTemplate.gender is not "":
         if userTemplate.gender == 'male':
-            welcome_message = "Hello Mr."+" "+userTemplate.first_name+" "+userTemplate.last_name + "! How may I help you?"
+            welcome_message = "Mr."+" "+userTemplate.first_name+" "+userTemplate.last_name + "! How may I help you?"
         else:
-            welcome_message = "Hello Ms."+" "+userTemplate.first_name+" "+userTemplate.last_name + "! How may I help you?"
+            welcome_message = "Ms."+" "+userTemplate.first_name+" "+userTemplate.last_name + "! How may I help you?"
     else:
-        welcome_message = "Hello "+userTemplate.first_name+" "+userTemplate.last_name + "! How may I help you?"
+        welcome_message = userTemplate.first_name+" "+userTemplate.last_name + "! How may I help you?"
 
     log("Sending button template to {recipient}.".format(recipient=userTemplate.id))
 
