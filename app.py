@@ -118,7 +118,7 @@ def webhook():
                                 if "result" in apiaiData:
                                     if "fulfillment" in apiaiData["result"]:
                                         if "speech" in apiaiData["result"]["fulfillment"]:
-                                            send_message(myUser.id, str(apiaiData["result"]["fulfillment"]["speech"]).replace("%Name%.", myUser.first_name))
+                                            send_message(myUser.id, str(apiaiData["result"]["fulfillment"]["speech"]).replace("%Name%", myUser.first_name))
 
 
                         elif message.get("attachments"):    # get attachment
