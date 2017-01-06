@@ -338,7 +338,7 @@ def send_message_quick_location(sender_id):
 def CustomPayload_template(userTemplate, payloadData):
 
 
-    log("Sending ResponseCard_template to {recipient}.".format(recipient=userTemplate.id))
+    log("Sending CustomPayload_template to {recipient}.".format(recipient=userTemplate.id))
     
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
@@ -347,7 +347,8 @@ def CustomPayload_template(userTemplate, payloadData):
         "Content-Type": "application/json"
     }
     if "recipient" in payloadData:
-        payloadData["recipient"] = userTemplate.id
+        payloadData["recipient"] = str(userTemplate.id)
+        log("recipient modified to {recipient}.".format(recipient=userTemplate.id))
     data = payloadData
 #    data = json.dumps({
 #        "recipient": {
