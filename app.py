@@ -350,6 +350,7 @@ def CustomPayload_template(userTemplate, payloadData):
         payloadData["recipient"]["id"] = userTemplate.id
         log("recipient id modified to {recipient}.".format(recipient=payloadData["recipient"]))
     data = payloadData
+    log(data)
 #    data = json.dumps({
 #        "recipient": {
 #            "id": userTemplate.id
