@@ -54,6 +54,7 @@ def webhook():
                             log("User Found : " + str(myUser.id))
                         else:
                             myUser = user.CreateUser(messaging_event["sender"]["id"])
+                            Domain_Whitelisting(myUser)
                             log("User Created : " + str(myUser.id))
 
                     if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
@@ -62,22 +63,28 @@ def webhook():
                         log("recipient_id : " + recipient_id)
                         
                         title = messaging_event["postback"]["payload"].split(":")[0]
-                        payload = messaging_event["postback"]["payload"].split(":")[1]
+                        subtitle = messaging_event["postback"]["payload"].split(":")[1]
+                        payload = messaging_event["postback"]["payload"].split(":")[2]
                         
-                        if title == 'BusTickets' or title == 'MovieTickets':
+                        if title == 'BusTickets':
                             message = payload
                             log("message : " + message)
                             send_message(myUser.id, message)
+                        elif title == 'MovieTickets':
+                            message = payload
+                            log("message : " + message)
+                            if subtitle == 'SelectMovie':
+                                myUser.stage = 'SelectMovie'
+                                if psql.update_user(messaging_event["sender"]["id"],myUser) == 0:
+                                    log("Error : User not found for update id. : " + str(messaging_event["sender"]["id"]))
+                                else:
+                                    log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
+                                send_message(myUser.id, message)
                         elif title == 'ActDeactServices':
                             message = payload
                             log("message : " + message)
                             send_message(myUser.id, message)
 #                            send_message_quick_location(myUser.id)
-                        elif title == 'TonicDiscounts':
-                            message = payload
-                            log("message : " + message)
-                            send_message(myUser.id, message)
-                        
 
                     elif messaging_event.get("message"):  # someone sent us a message
 
@@ -335,6 +342,31 @@ def send_message_quick_location(sender_id):
         log(r.status_code)
         log(r.text)
 
+def Domain_Whitelisting(userTemplate):
+    
+    
+    log("Sending Domain_Whitelisting to {recipient}.".format(recipient=userTemplate.id))
+    
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    data = json.dumps({
+                  "setting_type" : "domain_whitelisting",
+                  "whitelisted_domains" : ["https://www.youtube.com"]["https://en.wikipedia.org"],
+                  "domain_action_type": "add"
+                  })
+
+    r = requests.post("https://graph.facebook.com/v2.8/me/thread_settings", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
+
+    log(r.text)
+
 def CustomPayload_template(userTemplate, payloadData):
 
 
@@ -348,43 +380,8 @@ def CustomPayload_template(userTemplate, payloadData):
     }
     if "recipient" in payloadData and "id" in payloadData["recipient"]:
         payloadData["recipient"]["id"] = userTemplate.id
-        log("recipient id modified to {recipient}.".format(recipient=payloadData["recipient"]))
     data = json.dumps(payloadData)
-    log(data)
-#    data = json.dumps({
-#        "recipient": {
-#            "id": userTemplate.id
-#                      },
-#                      
-#        "message": {
-#            "attachment": {
-#                "type": "template",
-#                "payload": {
-#                      "template_type": "generic",
-#                      "elements": [
-#                                   {
-#                                   "title": str(title),
-#                                   "item_url": str(item_url),
-#                                   "image_url": str(image_url),
-#                                   "subtitle": str(subtitle)#,
-#                                   "buttons": [
-#                                               {
-#                                               "type": "web_url",
-#                                               "url": "https://petersfancybrownhats.com",
-#                                               "title": "View Website"
-#                                               },
-#                                               {
-#                                               "type": "postback",
-#                                               "title": "Start Chatting",
-#                                               "payload": "DEVELOPER_DEFINED_PAYLOAD"
-#                                               }
-#                                               ]
-#                                   }
-#                                   ]
-#                }
-#            }
-#        }
-#    })
+
     r = requests.post("https://graph.facebook.com/v2.8/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
@@ -426,17 +423,17 @@ def init_buttom_template(userTemplate):
                         {
                         'type': 'postback',
                         'title': 'Purchase Bus Tickets',
-                        'payload': 'BusTickets:In order to properly help you, I will need to ask you a few questions. What is your starting location ?'
+                        'payload': 'BusTickets:SelectStartLocation:In order to properly help you, I will need to ask you a few questions. What is your starting location ?'
                         },
                         {
                         'type': 'postback',
                         'title': 'Purchase Movie Tickets',
-                        'payload': 'MovieTickets:Please select movie from below list.'
+                        'payload': 'MovieTickets:SelectMovie:Please select movie from below list.'
                         },
                         {
                         'type': 'postback',
                         'title': 'Act/Deact Services',
-                        'payload': 'ActDeactServices:Please select service from below list to act/deact it.'
+                        'payload': 'ActDeactServices:SelectService:Please select service from below list to act/deact it.'
                         }
 #                               {
 #                               "type":"web_url",
