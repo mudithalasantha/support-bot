@@ -356,7 +356,7 @@ def Domain_Whitelisting(userTemplate):
 
     data = json.dumps({
                   "setting_type" : "domain_whitelisting",
-                  "whitelisted_domains" : ["https://www.youtube.com"]["https://en.wikipedia.org"],
+                  "whitelisted_domains" : '["https://www.youtube.com"]["https://en.wikipedia.org"]',
                   "domain_action_type": "add"
                   })
 
