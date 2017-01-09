@@ -54,7 +54,8 @@ def webhook():
                             log("User Found : " + str(myUser.id))
                         else:
                             myUser = user.CreateUser(messaging_event["sender"]["id"])
-                            Domain_Whitelisting(myUser)
+                            Domain_Whitelisting(myUser,"https://www.youtube.com")
+                            Domain_Whitelisting(myUser,"https://en.wikipedia.org")
                             log("User Created : " + str(myUser.id))
 
                     if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
@@ -342,7 +343,7 @@ def send_message_quick_location(sender_id):
         log(r.status_code)
         log(r.text)
 
-def Domain_Whitelisting(userTemplate):
+def Domain_Whitelisting(userTemplate,url):
     
     
     log("Sending Domain_Whitelisting to {recipient}.".format(recipient=userTemplate.id))
@@ -356,7 +357,7 @@ def Domain_Whitelisting(userTemplate):
 
     data = json.dumps({
                   "setting_type" : "domain_whitelisting",
-                  "whitelisted_domains" : '["https://www.youtube.com"]["https://en.wikipedia.org"]',
+                  "whitelisted_domains" : [str(url)],
                   "domain_action_type": "add"
                   })
 
