@@ -48,14 +48,14 @@ def webhook():
         if data["object"] == "page":
             for entry in data["entry"]:
                 for messaging_event in entry["messaging"]:
+                    Domain_Whitelisting(myUser,"https://www.youtube.com")
+                    Domain_Whitelisting(myUser,"https://m.youtube.com")
                     if messaging_event.get("postback") or messaging_event.get("message"):
                         if user.CheckUser(messaging_event["sender"]["id"]):
                             myUser = user.GetUser(messaging_event["sender"]["id"])
                             log("User Found : " + str(myUser.id))
                         else:
                             myUser = user.CreateUser(messaging_event["sender"]["id"])
-                            Domain_Whitelisting(myUser,"https://www.youtube.com")
-                            Domain_Whitelisting(myUser,"https://en.wikipedia.org")
                             log("User Created : " + str(myUser.id))
 
                     if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
