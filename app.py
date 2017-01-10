@@ -95,12 +95,13 @@ def webhook():
                             if subtitle == 'SelectMovie':
 #                               send_message(myUser.id, message)
                                 ai = apiai.ApiAI(ClientAccessToken)
-                                apiaiRequest = ai.event_request()
+                                apiaiRequest = ai.text_request()
                                 apiaiRequest.lang = 'en'  # optional, default value equal 'en'
-                                apiaiRequest.event = "purchase.movie_tickets.select_movie"
+                                apiaiRequest.query = "Purchase movie ticket"
                                 apiaiResponse = apiaiRequest.getresponse()
                                 apiaiData = json.loads(apiaiResponse.read())
                                 log("api ai return data : " + str(apiaiData))
+                                Api_ai_Extract_Response(apiaiData,myUser)
 
                         elif title == 'ActDeactServices':
                             message = payload
@@ -144,20 +145,7 @@ def webhook():
                                 apiaiResponse = apiaiRequest.getresponse()
                                 apiaiData = json.loads(apiaiResponse.read())
                                 log("api ai return data : " + str(apiaiData))
-                                if "result" in apiaiData:
-                                    if "fulfillment" in apiaiData["result"]:
-                                        if "speech" in apiaiData["result"]["fulfillment"]:
-                                            strData = str(apiaiData["result"]["fulfillment"]["speech"]).replace("%Name%", myUser.first_name)
-                                            if "%init_buttom_template%" in strData:
-                                                strData = strData.replace("%init_buttom_template%", "")
-                                                send_message(myUser.id, strData)
-                                                init_buttom_template(myUser)
-                                            else:
-                                                send_message(myUser.id, strData)
-                                        if "messages" in apiaiData["result"]["fulfillment"]:
-                                            for messagesEntry in apiaiData["result"]["fulfillment"]["messages"]:
-                                                if "payload" in messagesEntry and "type" in messagesEntry and messagesEntry["type"] == 4:
-                                                    CustomPayload_template(myUser,messagesEntry["payload"])
+                                Api_ai_Extract_Response(apiaiData,myUser)
 
                         elif message.get("attachments"):    # get attachment
                             attach = message["attachments"][0]  # loop over attachments?
@@ -284,6 +272,22 @@ def api_ai_filled(message):
         return True
     else:
         return False
+
+def Api_ai_Extract_Response(apiaiData,userTemplate)
+    if "result" in apiaiData:
+        if "fulfillment" in apiaiData["result"]:
+            if "speech" in apiaiData["result"]["fulfillment"]:
+                strData = str(apiaiData["result"]["fulfillment"]["speech"]).replace("%Name%", userTemplate.first_name)
+                if "%init_buttom_template%" in strData:
+                    strData = strData.replace("%init_buttom_template%", "")
+                    send_message(userTemplate.id, strData)
+                    init_buttom_template(userTemplate)
+                else:
+                    send_message(userTemplate.id, strData)
+            if "messages" in apiaiData["result"]["fulfillment"]:
+                for messagesEntry in apiaiData["result"]["fulfillment"]["messages"]:
+                    if "payload" in messagesEntry and "type" in messagesEntry and messagesEntry["type"] == 4:
+                        CustomPayload_template(userTemplate,messagesEntry["payload"])
 
 def send_message(sender_id, message_text):
     #message_text = message_text.encode('utf8')
