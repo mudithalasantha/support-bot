@@ -273,7 +273,7 @@ def api_ai_filled(message):
     else:
         return False
 
-def Api_ai_Extract_Response(apiaiData,userTemplate)
+def Api_ai_Extract_Response(apiaiData,userTemplate):
     if "result" in apiaiData:
         if "fulfillment" in apiaiData["result"]:
             if "speech" in apiaiData["result"]["fulfillment"]:
