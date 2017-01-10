@@ -122,7 +122,7 @@ def webhook():
                             else:
                                 log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
 #                            if message.upper() == "SUPPORTBOT" or message.upper() == "HI" or message.upper() == "HELLO":
-#                                init_buttom_template(myUser)
+#                                init_button_template(myUser)
                             if message.upper() == "DEV MYUSER":
                                 if user.CheckUser(messaging_event["sender"]["id"]):
                                     devTestUser = user.GetUser(messaging_event["sender"]["id"])
@@ -278,10 +278,10 @@ def Api_ai_Extract_Response(apiaiData,userTemplate):
         if "fulfillment" in apiaiData["result"]:
             if "speech" in apiaiData["result"]["fulfillment"]:
                 strData = str(apiaiData["result"]["fulfillment"]["speech"]).replace("%Name%", userTemplate.first_name)
-                if "%init_buttom_template%" in strData:
-                    strData = strData.replace("%init_buttom_template%", "")
+                if "%init_button_template%" in strData:
+                    strData = strData.replace("%init_button_template%", "")
                     send_message(userTemplate.id, strData)
-                    init_buttom_template(userTemplate)
+                    init_button_template(userTemplate)
                 else:
                     send_message(userTemplate.id, strData)
             if "messages" in apiaiData["result"]["fulfillment"]:
@@ -416,7 +416,7 @@ def CustomPayload_template(userTemplate, payloadData):
     log(r.text)
 
 
-def init_buttom_template(userTemplate):
+def init_button_template(userTemplate):
 
     welcome_message = "How may I help you?"
     if userTemplate.gender is not "":
