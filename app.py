@@ -64,7 +64,7 @@ def webhook():
                         log("recipient_id : " + recipient_id)
                         
                         title = messaging_event["postback"]["payload"].split(":")[0]
-                        subtitle = messaging_event["postback"]["payload"].split(":")[1]
+                        subtitleBulk = messaging_event["postback"]["payload"].split(":")[1]
                         payload = messaging_event["postback"]["payload"].split(":")[2]
                         
                         if title == 'BusTickets':
@@ -72,15 +72,36 @@ def webhook():
                             log("message : " + message)
                             send_message(myUser.id, message)
                         elif title == 'MovieTickets':
+                            myUser.stage = 'MovieTickets'
+                            if psql.update_user(messaging_event["sender"]["id"],myUser) == 0:
+                                log("Error : User not found for update id. : " + str(messaging_event["sender"]["id"]))
+                            else:
+                                log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
                             message = payload
                             log("message : " + message)
+                            subtitle = subtitleBulk.split("%")[0]
+                            selectedMovie = subtitleBulk.split("%")[1]
+                            selectedTheater = subtitleBulk.split("%")[2]
+                            selectedDate = subtitleBulk.split("%")[3]
+                            selectedTime = subtitleBulk.split("%")[4]
+                            if selectedMovie != 'NoMovie':
+#                               update
+                            if selectedTheater != 'NoTheater':
+#                               update
+                            if selectedDate != 'NoDate':
+#                               update
+                            if selectedTime != 'NoTime':
+#                               update
                             if subtitle == 'SelectMovie':
-                                myUser.stage = 'SelectMovie'
-                                if psql.update_user(messaging_event["sender"]["id"],myUser) == 0:
-                                    log("Error : User not found for update id. : " + str(messaging_event["sender"]["id"]))
-                                else:
-                                    log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
-                                send_message(myUser.id, message)
+#                               send_message(myUser.id, message)
+                                ai = apiai.ApiAI(ClientAccessToken)
+                                apiaiRequest = ai.event_request()
+                                apiaiRequest.lang = 'en'  # optional, default value equal 'en'
+                                apiaiRequest.event = "purchase.movie_tickets.select_movie"
+                                apiaiResponse = apiaiRequest.getresponse()
+                                apiaiData = json.loads(apiaiResponse.read())
+                                log("api ai return data : " + str(apiaiData))
+
                         elif title == 'ActDeactServices':
                             message = payload
                             log("message : " + message)
@@ -429,7 +450,7 @@ def init_buttom_template(userTemplate):
                         {
                         'type': 'postback',
                         'title': 'Purchase Movie Tickets',
-                        'payload': 'MovieTickets:SelectMovie:Please select movie from below list.'
+                        'payload': 'MovieTickets:SelectMovie%NoMovie%NoTheater%NoDate%NoTime:Please select movie from below list.'
                         },
                         {
                         'type': 'postback',
