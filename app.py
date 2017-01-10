@@ -84,14 +84,14 @@ def webhook():
                             selectedTheater = subtitleBulk.split("%")[2]
                             selectedDate = subtitleBulk.split("%")[3]
                             selectedTime = subtitleBulk.split("%")[4]
-                            if selectedMovie != 'NoMovie':
-#                               update
-                            if selectedTheater != 'NoTheater':
-#                               update
-                            if selectedDate != 'NoDate':
-#                               update
-                            if selectedTime != 'NoTime':
-#                               update
+#                            if selectedMovie != 'NoMovie':
+##                               update
+#                            if selectedTheater != 'NoTheater':
+##                               update
+#                            if selectedDate != 'NoDate':
+##                               update
+#                            if selectedTime != 'NoTime':
+##                               update
                             if subtitle == 'SelectMovie':
 #                               send_message(myUser.id, message)
                                 ai = apiai.ApiAI(ClientAccessToken)
