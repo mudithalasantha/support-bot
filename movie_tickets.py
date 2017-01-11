@@ -109,15 +109,4 @@ def getMovieList():
     return data
 
 
-def init_diagnose(symptom_id,age,gender,sender_id):
-	request = infermedica_api.Diagnosis(sex=gender, age=age)
-	request.add_symptom(symptom_id, 'present')
-	request = api.diagnosis(request)
-	return request
-
-def improve_diagnosis(request,sender_id,question_id,choice_id):
-	request.add_symptom(question_id,choice_id)
-	request = api.diagnosis(request)
-	return request
-
 
