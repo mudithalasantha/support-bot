@@ -25,7 +25,7 @@ def getMovieList():
                                      "default_action": {
                                         "type": "web_url",
                                         "url": "https://m.youtube.com/watch?v=LKFuXETZUsI",
-                                        "messenger_extensions": true,
+                                        "messenger_extensions": "true",
                                         "webview_height_ratio": "tall",
                                         "fallback_url": "https://m.youtube.com/watch?v=LKFuXETZUsI"
                                      },
@@ -44,7 +44,7 @@ def getMovieList():
                      "default_action": {
                      "type": "web_url",
                      "url": "https://m.youtube.com/watch?v=6rfkwSQ1dQ4",
-                     "messenger_extensions": true,
+                     "messenger_extensions": "true",
                      "webview_height_ratio": "tall",
                      "fallback_url": "https://m.youtube.com/watch?v=6rfkwSQ1dQ4"
                      },
@@ -63,7 +63,7 @@ def getMovieList():
                      "default_action": {
                      "type": "web_url",
                      "url": "https://m.youtube.com/watch?v=gfJVoF5ko1Y",
-                     "messenger_extensions": true,
+                     "messenger_extensions": "true",
                      "webview_height_ratio": "tall",
                      "fallback_url": "https://m.youtube.com/watch?v=gfJVoF5ko1Y"
                      },
@@ -82,7 +82,7 @@ def getMovieList():
                      "default_action": {
                      "type": "web_url",
                      "url": "https://m.youtube.com/watch?v=QINtUD6muF8",
-                     "messenger_extensions": true,
+                     "messenger_extensions": "true",
                      "webview_height_ratio": "tall",
                      "fallback_url": "https://m.youtube.com/watch?v=QINtUD6muF8"
                      },
