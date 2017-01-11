@@ -103,6 +103,16 @@ def webhook():
                                 apiaiData = json.loads(apiaiResponse.read())
                                 log("api ai return data : " + str(apiaiData))
                                 Api_ai_Extract_Response(apiaiData,myUser)
+                            if subtitle == 'SelectTheater':
+#                               send_message(myUser.id, message)
+                                ai = apiai.ApiAI(ClientAccessToken)
+                                apiaiRequest = ai.text_request()
+                                apiaiRequest.lang = 'en'  # optional, default value equal 'en'
+                                apiaiRequest.query = "I want to buy tickets for " + str(selectedMovie)
+                                apiaiResponse = apiaiRequest.getresponse()
+                                apiaiData = json.loads(apiaiResponse.read())
+                                log("api ai return data : " + str(apiaiData))
+                                Api_ai_Extract_Response(apiaiData,myUser)
 
                         elif title == 'ActDeactServices':
                             message = payload
