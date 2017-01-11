@@ -5,11 +5,11 @@ import requests
 import urllib, json
 #print(api.info())
 
-def getMovieList():
+def getMovieList(userTemplate):
 
     data = json.dumps({
             "recipient": {
-                "id": "userTemplate.id"
+                "id": userTemplate.id
             },
             "message": {
                 "attachment": {

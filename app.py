@@ -291,7 +291,7 @@ def Api_ai_Extract_Response(apiaiData,userTemplate):
                         CustomPayload_template(userTemplate,messagesEntry["payload"])
         if "action" in apiaiData["result"]:
             if "purchase.movie_tickets.select_movie" == apiaiData["result"]["action"]:
-                CustomPayload_template(userTemplate,movie_tickets.getMovieList())
+                LocallyProccessedData(userTemplate,movie_tickets.getMovieList(userTemplate))
 
 
 def send_message(sender_id, message_text):
@@ -392,6 +392,24 @@ def Domain_Whitelisting(userTemplate,url):
                   })
 
     r = requests.post("https://graph.facebook.com/v2.8/me/thread_settings", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
+
+    log(r.text)
+
+def LocallyProccessedData(userTemplate, data):
+
+    log("Sending CustomPayload_template to {recipient}.".format(recipient=userTemplate.id))
+    
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    r = requests.post("https://graph.facebook.com/v2.8/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
