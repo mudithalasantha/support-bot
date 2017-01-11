@@ -290,7 +290,7 @@ def Api_ai_Extract_Response(apiaiData,userTemplate):
                     if "payload" in messagesEntry and "type" in messagesEntry and messagesEntry["type"] == 4:
                         CustomPayload_template(userTemplate,messagesEntry["payload"])
         if "action" in apiaiData["result"]:
-            if "purchase.movie_tickets.select_movie" == apiaiData["result"]["action"]
+            if "purchase.movie_tickets.select_movie" == apiaiData["result"]["action"]:
                 CustomPayload_template(userTemplate,movie_tickets.getMovieList())
 
 
