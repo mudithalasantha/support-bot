@@ -126,10 +126,10 @@ def getTheaterList(userTemplate):
                                    "subtitle": "Colombo 3",
                                    "default_action": {
                                    "type": "web_url",
-                                   "url": "",
+                                   #       "url": "",
                                    "messenger_extensions": "true",
-                                   "webview_height_ratio": "tall",
-                                   "fallback_url": ""
+                                   "webview_height_ratio": "tall"#,
+                                   #"fallback_url": ""
                                    },
                                    "buttons": [
                                                {
@@ -145,10 +145,10 @@ def getTheaterList(userTemplate):
                                    "subtitle": "Jaela",
                                    "default_action": {
                                    "type": "web_url",
-                                   "url": "",
+                                   #"url": "",
                                    "messenger_extensions": "true",
-                                   "webview_height_ratio": "tall",
-                                   "fallback_url": ""
+                                   "webview_height_ratio": "tall"#,
+                                   #"fallback_url": ""
                                    },
                                    "buttons": [
                                                {
@@ -164,10 +164,10 @@ def getTheaterList(userTemplate):
                                    "subtitle": "Wellawatte",
                                    "default_action": {
                                    "type": "web_url",
-                                   "url": "",
+                                   #"url": "",
                                    "messenger_extensions": "true",
-                                   "webview_height_ratio": "tall",
-                                   "fallback_url": ""
+                                   "webview_height_ratio": "tall"#,
+                                   #"fallback_url": ""
                                    },
                                    "buttons": [
                                                {
@@ -183,10 +183,10 @@ def getTheaterList(userTemplate):
                                    "subtitle": "Anuradhapura",
                                    "default_action": {
                                    "type": "web_url",
-                                   "url": "",
+                                   #"url": "",
                                    "messenger_extensions": "true",
-                                   "webview_height_ratio": "tall",
-                                   "fallback_url": ""
+                                   "webview_height_ratio": "tall"#,
+                                   #"fallback_url": ""
                                    },
                                    "buttons": [
                                                {
