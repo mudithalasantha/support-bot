@@ -124,13 +124,13 @@ def getTheaterList(userTemplate):
                                    "title": "Liberty",
                                    "image_url": "http://www.eapmovies.com/components/com_eapmovies/includes/images/theaters/theater_6/theater_6_51add7a324282_1.JPG",
                                    "subtitle": "Colombo 3",
-                                   "default_action": {
-                                   "type": "web_url",
-                                   #       "url": "",
-                                   "messenger_extensions": "true",
-                                   "webview_height_ratio": "tall"#,
-                                   #"fallback_url": ""
-                                   },
+#                                   "default_action": {
+#                                   "type": "web_url",
+#                                   "url": "",
+#                                   "messenger_extensions": "true",
+#                                   "webview_height_ratio": "tall",
+#                                   "fallback_url": ""
+#                                   },
                                    "buttons": [
                                                {
                                                "title": "Select",
@@ -143,13 +143,13 @@ def getTheaterList(userTemplate):
                                    "title": "Cinemax 3D",
                                    "image_url": "http://www.eapmovies.com/components/com_eapmovies/includes/images/theaters/theater_8/theater_8_5121ef42cb837_3.JPG",
                                    "subtitle": "Jaela",
-                                   "default_action": {
-                                   "type": "web_url",
-                                   #"url": "",
-                                   "messenger_extensions": "true",
-                                   "webview_height_ratio": "tall"#,
-                                   #"fallback_url": ""
-                                   },
+#                                   "default_action": {
+#                                   "type": "web_url",
+#                                   "url": "",
+#                                   "messenger_extensions": "true",
+#                                   "webview_height_ratio": "tall",
+#                                   "fallback_url": ""
+#                                   },
                                    "buttons": [
                                                {
                                                "title": "Select",
@@ -162,13 +162,13 @@ def getTheaterList(userTemplate):
                                    "title": "Savoy 2",
                                    "image_url": "http://www.eapmovies.com/components/com_eapmovies/includes/images/theaters/theater_2/theater_2_4ffd4f2ae2703_1400.jpg",
                                    "subtitle": "Wellawatte",
-                                   "default_action": {
-                                   "type": "web_url",
-                                   #"url": "",
-                                   "messenger_extensions": "true",
-                                   "webview_height_ratio": "tall"#,
-                                   #"fallback_url": ""
-                                   },
+#                                   "default_action": {
+#                                   "type": "web_url",
+#                                   "url": "",
+#                                   "messenger_extensions": "true",
+#                                   "webview_height_ratio": "tall",
+#                                   "fallback_url": ""
+#                                   },
                                    "buttons": [
                                                {
                                                "title": "Select",
@@ -181,13 +181,13 @@ def getTheaterList(userTemplate):
                                    "title": "Willmax 3D",
                                    "image_url": "http://www.eapmovies.com/components/com_eapmovies/includes/images/theaters/theater_10/theater_10_502b6e093c971_Willmax%201.JPG",
                                    "subtitle": "Anuradhapura",
-                                   "default_action": {
-                                   "type": "web_url",
-                                   #"url": "",
-                                   "messenger_extensions": "true",
-                                   "webview_height_ratio": "tall"#,
-                                   #"fallback_url": ""
-                                   },
+#                                   "default_action": {
+#                                   "type": "web_url",
+#                                   "url": "",
+#                                   "messenger_extensions": "true",
+#                                   "webview_height_ratio": "tall",
+#                                   "fallback_url": ""
+#                                   },
                                    "buttons": [
                                                {
                                                "title": "Select",
