@@ -4,6 +4,8 @@ import json
 import requests
 import urllib, json
 import psql
+import time
+from datetime import date
 #print(api.info())
 
 class MyMovie:
@@ -13,8 +15,8 @@ class MyMovie:
         self.fbid = None
         self.movie = 'empty'
         self.theater = 'empty'
-        self.date = 'empty'
-        self.time = 'empty'
+        self.date = date(MINYEAR, 1, 1)
+        self.time = time(0, 0, 0, 0)
         self.status = 'empty'
         self.id = None
         self.last_edit = 'empty'
@@ -35,8 +37,8 @@ def CreateMyMovie(userID):
     newMyMovie.fbid = userID
     newMyMovie.movie = 'NoMovie'
     newMyMovie.theater = 'NoTheater'
-    newMyMovie.date = 'NoDate'
-    newMyMovie.time = 'NoTime'
+    newMyMovie.date = date(MINYEAR, 1, 1)
+    newMyMovie.time = time(0, 0, 0, 0)
     newMyMovie.status = 'JustCreated'
     
     psql.insert_purchase_movie_tickets(newMyMovie)
