@@ -103,7 +103,7 @@ def webhook():
                             if selectedTime != 'NoTime':
                                myMovie.time = selectedTime
                             
-                            movie_tickets.UpdateMyMovie(myMovie.id, mMovie)
+                            movie_tickets.UpdateMyMovie(myMovie.id, myMovie)
                             
                             if subtitle == 'SelectMovie':
 #                               send_message(myUser.id, message)
