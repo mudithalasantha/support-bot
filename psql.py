@@ -178,7 +178,7 @@ def is_purchase_movie_tickets_available(id):
         params = config()
         conn = psycopg2.connect(**params)
         cur = conn.cursor()
-        cur.execute("select movie,theater,date,time FROM purchase_movie_tickets where fbid = "+str(id)) + " and status != 'Completed'"
+        cur.execute("select movie,theater,date,time FROM purchase_movie_tickets where fbid = "+str(id) + " and status != 'Completed'")
         print("The number of mymovie: ", cur.rowcount)
         row_count = cur.rowcount
         row = cur.fetchone()
