@@ -5,6 +5,7 @@ import requests
 import urllib, json
 import psql
 import time
+import datetime
 from datetime import date
 #print(api.info())
 
