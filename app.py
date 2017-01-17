@@ -130,7 +130,7 @@ def webhook():
                                 ai = apiai.ApiAI(ClientAccessToken)
                                 apiaiRequest = ai.text_request()
                                 apiaiRequest.lang = 'en'  # optional, default value equal 'en'
-                                apiaiRequest.query = "Movie 64 Mayam Theater Liberty"
+                                apiaiRequest.query = "Movie "+ str(myMovie.movie) +" Theater " + str(myMovie.theater)
                                 apiaiResponse = apiaiRequest.getresponse()
                                 apiaiData = json.loads(apiaiResponse.read())
                                 log("api ai return data : " + str(apiaiData))
