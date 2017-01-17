@@ -41,7 +41,7 @@ def CreateMyMovie(userID):
     
     psql.insert_purchase_movie_tickets(newMyMovie)
     
-    return psql.get_user(newMyMovie.id)
+    return psql.get_purchase_movie_tickets(newMyMovie.id)
 
 def UpdateMyMovie(userID, mMovie):
     if psql.update_purchase_movie_tickets(userID,mMovie) == 0:
