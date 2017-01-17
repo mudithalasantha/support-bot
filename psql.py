@@ -200,18 +200,18 @@ def get_purchase_movie_tickets(id):
         params = config()
         conn = psycopg2.connect(**params)
         cur = conn.cursor()
-        cur.execute("select fbid,movie,theater,date,time,status,id,last_edit FROM users where fbid = "+str(id) + " and status != 'Completed'")
+        cur.execute("select movie,theater,date,time,status,id,last_edit FROM users where fbid = "+str(id) + " and status != 'Completed'")
         print("The number of users: ", cur.rowcount)
         row = cur.fetchone()
         print(row)
-        Mmovie.fbid = row[0]
-        Mmovie.movie = row[1]
-        Mmovie.theater = row[2]
-        Mmovie.date = row[3]
-        Mmovie.time = row[4]
-        Mmovie.status = row[5]
-        Mmovie.id = row[6]
-        Mmovie.last_edit = row[7]
+        Mmovie.fbid = id
+        Mmovie.movie = row[0]
+        Mmovie.theater = row[1]
+        Mmovie.date = row[2]
+        Mmovie.time = row[3]
+        Mmovie.status = row[4]
+        Mmovie.id = row[5]
+        Mmovie.last_edit = row[6]
         
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
