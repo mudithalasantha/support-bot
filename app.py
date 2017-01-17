@@ -82,10 +82,10 @@ def webhook():
                             
                             if movie_tickets.CheckMyMovie(messaging_event["sender"]["id"]):
                                 myMovie = movie_tickets.GetMyMovie(messaging_event["sender"]["id"])
-                                log("MyMovie Found : " + str(myMovie.fbid)) + " id : " + str(myMovie.id))
+                                log("MyMovie Found : " + str(myMovie.fbid) + " id : " + str(myMovie.id))
                             else:
                                 myMovie = movie_tickets.CreateMyMovie(messaging_event["sender"]["id"])
-                                log("MyMovie Created : " + str(myMovie.fbid))  + " id : " + str(myMovie.id))
+                                log("MyMovie Created : " + str(myMovie.fbid)  + " id : " + str(myMovie.id))
 
                             message = payload
                             log("message : " + message)
