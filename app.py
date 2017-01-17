@@ -24,6 +24,7 @@ api = infermedica_api.API(app_id='21794b8d', app_key='81f5f69f0cc9d2defaa3c722c0
 
 app = Flask(__name__)
 myUser = user.MyUser()
+myMovie = movie_tickets.MyMovie()
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -43,7 +44,7 @@ def webhook():
     data = request.get_json()
     log("%%%% New Message %%%% " + str(data))  # you may not want to log every incoming message in production, but it's good for testing
     
-    global myUser
+    global myUser,myMovie
     
     if "object" in data:
         if data["object"] == "page":
@@ -69,15 +70,23 @@ def webhook():
                         payload = messaging_event["postback"]["payload"].split(":")[2]
                         
                         if title == 'BusTickets':
+                            myUser.stage = 'BusTickets'
+                            user.UpdateUser(messaging_event["sender"]["id"],myUser)
+                            
                             message = payload
                             log("message : " + message)
                             send_message(myUser.id, message)
                         elif title == 'MovieTickets':
                             myUser.stage = 'MovieTickets'
-                            if psql.update_user(messaging_event["sender"]["id"],myUser) == 0:
-                                log("Error : User not found for update id. : " + str(messaging_event["sender"]["id"]))
+                            user.UpdateUser(messaging_event["sender"]["id"],myUser)
+                            
+                            if movie_tickets.CheckMyMovie(messaging_event["sender"]["id"]):
+                                myMovie = movie_tickets.GetMyMovie(messaging_event["sender"]["id"])
+                                log("MyMovie Found : " + str(myMovie.fbid)) + " id : " + str(myMovie.id))
                             else:
-                                log("Success : User updated. id : " + str(messaging_event["sender"]["id"]))
+                                myMovie = movie_tickets.CreateMyMovie(messaging_event["sender"]["id"])
+                                log("MyMovie Created : " + str(myMovie.fbid))  + " id : " + str(myMovie.id))
+
                             message = payload
                             log("message : " + message)
                             subtitle = subtitleBulk.split("%")[0]
@@ -85,14 +94,17 @@ def webhook():
                             selectedTheater = subtitleBulk.split("%")[2]
                             selectedDate = subtitleBulk.split("%")[3]
                             selectedTime = subtitleBulk.split("%")[4]
-#                            if selectedMovie != 'NoMovie':
-##                               update
-#                            if selectedTheater != 'NoTheater':
-##                               update
-#                            if selectedDate != 'NoDate':
-##                               update
-#                            if selectedTime != 'NoTime':
-##                               update
+                            if selectedMovie != 'NoMovie':
+                               myMovie.movie = selectedMovie
+                            if selectedTheater != 'NoTheater':
+                               myMovie.theater = selectedTheater
+                            if selectedDate != 'NoDate':
+                               myMovie.date = selectedDate
+                            if selectedTime != 'NoTime':
+                               myMovie.time = selectedTime
+                            
+                            movie_tickets.UpdateMyMovie(myMovie.id, mMovie)
+                            
                             if subtitle == 'SelectMovie':
 #                               send_message(myUser.id, message)
                                 ai = apiai.ApiAI(ClientAccessToken)
@@ -125,6 +137,9 @@ def webhook():
                                 Api_ai_Extract_Response(apiaiData,myUser)
 
                         elif title == 'ActDeactServices':
+                            myUser.stage = 'ActDeactServices'
+                            user.UpdateUser(messaging_event["sender"]["id"],myUser)
+                            
                             message = payload
                             log("message : " + message)
                             send_message(myUser.id, message)

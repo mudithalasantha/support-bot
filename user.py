@@ -61,4 +61,9 @@ def CreateUser(userID):
     
     return psql.get_user(newUser.id)
 
+def UpdateUser(userID, mUser):
+    if psql.update_user(userID,mUser) == 0:
+        log("Error : User not found for update id. : " + str(userID))
+    else:
+        log("Success : User updated. id : " + str(userID))
 

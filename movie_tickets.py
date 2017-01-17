@@ -3,7 +3,51 @@ import sys
 import json
 import requests
 import urllib, json
+import psql
 #print(api.info())
+
+class MyMovie:
+    
+    def __init__(self):
+        #        self.data = []
+        self.fbid = None
+        self.movie = 'empty'
+        self.theater = 'empty'
+        self.date = 'empty'
+        self.time = 'empty'
+        self.status = 'empty'
+        self.id = None
+        self.last_edit = 'empty'
+
+
+def CheckMyMovie(userID):
+    row_count = psql.is_purchase_movie_tickets_available(userID)
+    if row_count == 1:
+        return True
+    else:
+        return False
+
+def GetMyMovie(userID):
+    return psql.get_purchase_movie_tickets(userID)
+
+def CreateMyMovie(userID):
+    newMyMovie = MyMovie()
+    newMyMovie.fbid = userID
+    newMyMovie.movie = 'NoMovie'
+    newMyMovie.theater = 'NoTheater'
+    newMyMovie.date = 'NoDate'
+    newMyMovie.time = 'NoTime'
+    newMyMovie.status = 'JustCreated'
+    
+    psql.insert_purchase_movie_tickets(newMyMovie)
+    
+    return psql.get_user(newMyMovie.id)
+
+def UpdateMyMovie(userID, mMovie):
+    if psql.update_purchase_movie_tickets(userID,mMovie) == 0:
+        log("Error : MyMovie not found for update id. : " + str(userID))
+    else:
+        log("Success : MyMovie updated. id : " + str(userID))
 
 def getMovieList(userTemplate):
 
