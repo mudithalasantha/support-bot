@@ -312,14 +312,16 @@ def api_ai_filled(message):
 def Api_ai_Extract_Response(apiaiData,userTemplate):
     if "result" in apiaiData:
         if "fulfillment" in apiaiData["result"]:
-            if "speech" in apiaiData["result"]["fulfillment"]:
-                strData = str(apiaiData["result"]["fulfillment"]["speech"]).replace("%Name%", userTemplate.first_name)
-                if "%init_button_template%" in strData:
-                    strData = strData.replace("%init_button_template%", "")
-                    send_message(userTemplate.id, strData)
-                    init_button_template(userTemplate)
-                else:
-                    send_message(userTemplate.id, strData)
+            if "messages" in apiaiData["result"]["fulfillment"]:
+                for messagesEntry in apiaiData["result"]["fulfillment"]["messages"]:
+                    if "speech" in messagesEntry:
+                        strData = str(messagesEntry["speech"]).replace("%Name%", userTemplate.first_name)
+                        if "%init_button_template%" in strData:
+                            strData = strData.replace("%init_button_template%", "")
+                            send_message(userTemplate.id, strData)
+                            init_button_template(userTemplate)
+                        else:
+                            send_message(userTemplate.id, strData)
             if "messages" in apiaiData["result"]["fulfillment"]:
                 for messagesEntry in apiaiData["result"]["fulfillment"]["messages"]:
                     if "payload" in messagesEntry and "type" in messagesEntry and messagesEntry["type"] == 4:
