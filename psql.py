@@ -148,7 +148,7 @@ def update_user(id, user):
 
 def insert_purchase_movie_tickets(myMovie):
     """ insert a new user into the vendors table """
-    sql = "insert into purchase_movie_tickets (fbid,movie,theater,date,time,status) VALUES("+str(myMovie.fbid)+",'"+str(myMovie.movie).replace("'", "")+"','"+str(myMovie.theater).replace("'", "")+"','"+str(myMovie.date).replace("'", "")+"','"+str(myMovie.time).replace("'", "")+"','"+str(myMovie.status).replace("'", "")+"')"
+    sql = "insert into purchase_movie_tickets (fbid,movie,theater,date,time,status) VALUES("+str(myMovie.fbid)+",'"+str(myMovie.movie).replace("'", "''")+"','"+str(myMovie.theater).replace("'", "''")+"','"+str(myMovie.date).replace("'", "''")+"','"+str(myMovie.time).replace("'", "''")+"','"+str(myMovie.status).replace("'", "''")+"')"
     conn = None
     try:
         # read database configuration
@@ -233,7 +233,7 @@ def update_purchase_movie_tickets(id, Mmovie):
         # create a new cursor
         cur = conn.cursor()
         # execute the UPDATE  statement
-        cur.execute("update purchase_movie_tickets set fbid = '"+str(Mmovie.fbid)+"',movie = '"+str(Mmovie.movie).replace("'", "")+"',theater = '"+str(Mmovie.theater).replace("'", "")+"' ,date = '"+str(Mmovie.date).replace("'", "")+"',time = '"+str(Mmovie.time).replace("'", "")+"',status = '"+str(Mmovie.status).replace("'", "")+"',last_edit = now()  where id = "+str(id))
+        cur.execute("update purchase_movie_tickets set fbid = '"+str(Mmovie.fbid)+"',movie = '"+str(Mmovie.movie).replace("'", "''")+"',theater = '"+str(Mmovie.theater).replace("'", "''")+"' ,date = '"+str(Mmovie.date).replace("'", "''")+"',time = '"+str(Mmovie.time).replace("'", "''")+"',status = '"+str(Mmovie.status).replace("'", "''")+"',last_edit = now()  where id = "+str(id))
         # get the number of updated rows
         updated_rows = cur.rowcount
         # Commit the changes to the database
