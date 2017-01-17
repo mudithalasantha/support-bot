@@ -45,9 +45,9 @@ def CreateMyMovie(userID):
 
 def UpdateMyMovie(userID, mMovie):
     if psql.update_purchase_movie_tickets(userID,mMovie) == 0:
-        log("Error : MyMovie not found for update id. : " + str(userID))
+        print("Error : MyMovie not found for update id. : " + str(userID))
     else:
-        log("Success : MyMovie updated. id : " + str(userID))
+        print("Success : MyMovie updated. id : " + str(userID))
 
 def getMovieList(userTemplate):
 
