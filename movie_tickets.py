@@ -15,7 +15,7 @@ class MyMovie:
         self.fbid = None
         self.movie = 'empty'
         self.theater = 'empty'
-        self.date = date(MINYEAR, 1, 1)
+        self.date = date(datetime.MINYEAR, 1, 1)
         self.time = time(0, 0, 0, 0)
         self.status = 'empty'
         self.id = None
@@ -37,7 +37,7 @@ def CreateMyMovie(userID):
     newMyMovie.fbid = userID
     newMyMovie.movie = 'NoMovie'
     newMyMovie.theater = 'NoTheater'
-    newMyMovie.date = date(MINYEAR, 1, 1)
+    newMyMovie.date = date(datetime.MINYEAR, 1, 1)
     newMyMovie.time = time(0, 0, 0, 0)
     newMyMovie.status = 'JustCreated'
     
