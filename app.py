@@ -108,7 +108,17 @@ def webhook():
                                 ai = apiai.ApiAI(ClientAccessToken)
                                 apiaiRequest = ai.text_request()
                                 apiaiRequest.lang = 'en'  # optional, default value equal 'en'
-                                apiaiRequest.query = "I want to buy tickets for " + str(selectedMovie)
+                                apiaiRequest.query = "I want to buy movie tickets for " + str(selectedMovie)
+                                apiaiResponse = apiaiRequest.getresponse()
+                                apiaiData = json.loads(apiaiResponse.read())
+                                log("api ai return data : " + str(apiaiData))
+                                Api_ai_Extract_Response(apiaiData,myUser)
+                            if subtitle == 'SelectDate':
+#                               send_message(myUser.id, message)
+                                ai = apiai.ApiAI(ClientAccessToken)
+                                apiaiRequest = ai.text_request()
+                                apiaiRequest.lang = 'en'  # optional, default value equal 'en'
+                                apiaiRequest.query = "Movie 64 Mayam Theater Liberty"
                                 apiaiResponse = apiaiRequest.getresponse()
                                 apiaiData = json.loads(apiaiResponse.read())
                                 log("api ai return data : " + str(apiaiData))
@@ -302,6 +312,8 @@ def Api_ai_Extract_Response(apiaiData,userTemplate):
         if "action" in apiaiData["result"]:
             if "purchase.movie_tickets.select_movie" == apiaiData["result"]["action"]:
                 LocallyProccessedData(userTemplate,movie_tickets.getMovieList(userTemplate))
+            elif "purchase.movie_tickets.select_theater" == apiaiData["result"]["action"]:
+                LocallyProccessedData(userTemplate,movie_tickets.getTheaterList(userTemplate))
 
 
 def send_message(sender_id, message_text):
